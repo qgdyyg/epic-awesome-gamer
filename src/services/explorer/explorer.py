@@ -94,9 +94,9 @@ class GameLibManager(AwesomeFreeGirl):
         if not assert_obj:
             logger.debug(
                 ToolBox.runtime_report(
-                    motive="SKIP",
+                    motive="IGNORE",
                     action_name=self.action_name,
-                    message="跳过异常的游戏对象 可能原因为商品未发布",
+                    message="忽略尚未发布的游戏对象",
                     url=page_link,
                 )
             )
@@ -235,7 +235,10 @@ class Explorer(AwesomeFreeGirl):
                     response = self.game_manager.is_my_game(
                         ctx_cookies=ctx_cookies, page_link=url
                     )
-                    if not response["status"] and response["assert"] != "AssertObjectNotFound":
+                    if (
+                        not response["status"]
+                        and response["assert"] != "AssertObjectNotFound"
+                    ):
                         _update_limited_free_game_objs(element)
 
         return limited_free_game_objs
